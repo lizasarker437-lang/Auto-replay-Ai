@@ -19,14 +19,32 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      - name: Check files and grant permission
+        run: |
+          if [ -f "./gradlew" ]; then
+            chmod +x gradlew
+          elif [ -f "./android/gradlew" ]; then
+            chmod +x ./android/gradlew
+            cd android
+          else
+            echo "gradlew not found in root or android folder!"
+            exit 1
+          fi
 
       - name: Build Debug APK with Gradle
-        run: ./gradlew assembleDebug
+        run: |
+          if [ -f "./gradlew" ]; then
+            ./gradlew assembleDebug
+          elif [ -f "./android/gradlew" ]; then
+            ./android/gradlew assembleDebug
+          else
+            cd android && ./gradlew assembleDebug
+          fi
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: |
+            app/build/outputs/apk/debug/app-debug.apk
+            **/build/outputs/apk/debug/app-debug.apk
