@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-android-calculator:
-    name: Build Calculator APK
+    name: Build Release APK
     runs-on: ubuntu-latest
 
     steps:
@@ -27,14 +27,18 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Create Android Directories & Gradle Files
+        run: |
+          flutter create . --org com.calculator.app --platforms=android --project-name smart_calculator
+
       - name: Install Dependencies
         run: flutter pub get
 
       - name: Build Release APK
-        run: flutter build apk --release
+        run: flutter build apk --release --split-per-abi
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: calculator-apk-release
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/
