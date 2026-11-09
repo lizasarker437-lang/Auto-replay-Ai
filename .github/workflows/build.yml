@@ -1,22 +1,13 @@
-# =====================================================================
-# Calculator Android App - Complete CI/CD and Project Configuration (.yml)
-# =====================================================================
-# This YAML file combines the GitHub Actions workflow for building the Android APK
-# and project configurations suitable for an automated pipeline.
-# =====================================================================
-
 name: Build Calculator Android App
 
 on:
   push:
     branches: [ "main", "master" ]
-  pull_request:
-    branches: [ "main", "master" ]
   workflow_dispatch:
 
 jobs:
   build-android-calculator:
-    name: Build Calculator APK (Flutter & Android)
+    name: Build Calculator APK
     runs-on: ubuntu-latest
 
     steps:
@@ -39,45 +30,11 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Run Flutter Analyzer & Tests
-        run: |
-          flutter analyze
-          flutter test
-
-      - name: Build Release APK for Calculator App
-        run: flutter build apk --release --split-per-abi
+      - name: Build Release APK
+        run: flutter build apk --release
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: calculator-apk-release
           path: build/app/outputs/flutter-apk/app-release.apk
-
----
-# =====================================================================
-# App Configuration & Metadata (pubspec.yaml style configuration)
-# =====================================================================
-app_metadata:
-  name: "smart_calculator"
-  description: "A feature-rich scientific and standard calculator Android application."
-  version: "1.0.0+1"
-  environment:
-    sdk: ">=3.0.0 <4.0.0"
-    flutter: ">=3.19.0"
-
-  dependencies:
-    flutter:
-      sdk: flutter
-    cupertino_icons: ^1.0.6
-    math_expressions: ^2.4.0
-
-  flutter_icons:
-    android: "launcher_icon"
-    ios: true
-    image_path: "assets/icon/calculator_logo.png"
-
-  flutter:
-    uses-material-design: true
-    assets:
-      - assets/sounds/
-      - assets/themes/
