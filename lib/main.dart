@@ -128,13 +128,47 @@ class _CalculatorHomePageState extends State<CalculatorHomePage> {
           const Divider(color: Colors.grey),
           Column(
             children: [
-              Row(children: [_buildButton("C", Colors.red, Colors.grey[850]!), _buildButton("(", Colors.green, Colors.grey[850]!), _buildButton(")", Colors.green, Colors.grey[850]!), _buildButton("÷", Colors.orange, Colors.grey[850]!)]),
-              Row(children: [_buildButton("7", Colors.white, Colors.grey[900]!), _buildButton("8", Colors.white, Colors.grey[900]!), _buildButton("9", Colors.white, Colors.grey[900]!), _buildButton("×", Colors.orange, Colors.grey[850]!)]),
-              Row(children: [_buildButton("4", Colors.white, Colors.grey[900]!), _buildButton("5", Colors.white, Colors.grey[900]!), _buildButton("6", Colors.white, Colors.grey[900]!), _buildButton("-", Colors.orange, Colors.grey[850]!)]),
-              Row(children: [_buildButton("1", Colors.white, Colors.grey[900]!), _buildButton("2", Colors.white, Colors.grey[900]!), _buildButton("3", Colors.white, Colors.grey[900]!), _buildButton("+", Colors.orange, Colors.grey[850]!)]),
-              Row(children: [_buildButton("0", Colors.white, Colors.grey[900]!), _buildButton(".", Colors.white, Colors.grey[900]!), _buildButton("⌫", Colors.redAccent, Colors.grey[850]!), _buildButton("=", Colors.white, Colors.orange)]),
+              Row(
+                children: [
+                  _buildButton("C", Colors.red, Colors.grey[850]!),
+                  _buildButton("(", Colors.green, Colors.grey[850]!),
+                  _buildButton(")", Colors.green, Colors.grey[850]!),
+                  _buildButton("÷", Colors.orange, Colors.grey[850]!),
+                ],
+              ),
+              Row(
+                children: [
+                  _buildButton("7", Colors.white, Colors.grey[900]!),
+                  _buildButton("8", Colors.white, Colors.grey[900]!),
+                  _buildButton("9", Colors.white, Colors.grey[900]!),
+                  _buildButton("×", Colors.orange, Colors.grey[850]!),
+                ],
+              ),
+              Row(
+                children: [
+                  _buildButton("4", Colors.white, Colors.grey[900]!),
+                  _buildButton("5", Colors.white, Colors.grey[900]!),
+                  _buildButton("6", Colors.white, Colors.grey[900]!),
+                  _buildButton("-", Colors.orange, Colors.grey[850]!),
+                ],
+              ),
+              Row(
+                children: [
+                  _buildButton("1", Colors.white, Colors.grey[900]!),
+                  _buildButton("2", Colors.white, Colors.grey[900]!),
+                  _buildButton("3", Colors.white, Colors.grey[900]!),
+                  _buildButton("+", Colors.orange, Colors.grey[850]!),
+                ],
+              ),
+              Row(
+                children: [
+                  _buildButton("0", Colors.white, Colors.grey[900]!),
+                  _buildButton(".", Colors.white, Colors.grey[900]!),
+                  _buildButton("⌫", Colors.redAccent, Colors.grey[850]!),
+                  _buildButton("=", Colors.white, Colors.orange),
+                ],
+              ),
             ],
-          ),
           ),
           const SizedBox(height: 10),
         ],
