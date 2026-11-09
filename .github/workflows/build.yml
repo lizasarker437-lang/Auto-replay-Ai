@@ -1,50 +1,83 @@
-name: Build Android APK
+# =====================================================================
+# Calculator Android App - Complete CI/CD and Project Configuration (.yml)
+# =====================================================================
+# This YAML file combines the GitHub Actions workflow for building the Android APK
+# and project configurations suitable for an automated pipeline.
+# =====================================================================
+
+name: Build Calculator Android App
 
 on:
   push:
     branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
   workflow_dispatch:
 
 jobs:
-  build:
+  build-android-calculator:
+    name: Build Calculator APK (Flutter & Android)
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up Java Development Kit (JDK 17)
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Check files and grant permission
-        run: |
-          if [ -f "./gradlew" ]; then
-            chmod +x gradlew
-          elif [ -f "./android/gradlew" ]; then
-            chmod +x ./android/gradlew
-            cd android
-          else
-            echo "gradlew not found in root or android folder!"
-            exit 1
-          fi
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.x'
+          channel: 'stable'
+          cache: true
 
-      - name: Build Debug APK with Gradle
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Run Flutter Analyzer & Tests
         run: |
-          if [ -f "./gradlew" ]; then
-            ./gradlew assembleDebug
-          elif [ -f "./android/gradlew" ]; then
-            ./android/gradlew assembleDebug
-          else
-            cd android && ./gradlew assembleDebug
-          fi
+          flutter analyze
+          flutter test
+
+      - name: Build Release APK for Calculator App
+        run: flutter build apk --release --split-per-abi
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug-apk
-          path: |
-            app/build/outputs/apk/debug/app-debug.apk
-            **/build/outputs/apk/debug/app-debug.apk
+          name: calculator-apk-release
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+---
+# =====================================================================
+# App Configuration & Metadata (pubspec.yaml style configuration)
+# =====================================================================
+app_metadata:
+  name: "smart_calculator"
+  description: "A feature-rich scientific and standard calculator Android application."
+  version: "1.0.0+1"
+  environment:
+    sdk: ">=3.0.0 <4.0.0"
+    flutter: ">=3.19.0"
+
+  dependencies:
+    flutter:
+      sdk: flutter
+    cupertino_icons: ^1.0.6
+    math_expressions: ^2.4.0
+
+  flutter_icons:
+    android: "launcher_icon"
+    ios: true
+    image_path: "assets/icon/calculator_logo.png"
+
+  flutter:
+    uses-material-design: true
+    assets:
+      - assets/sounds/
+      - assets/themes/
